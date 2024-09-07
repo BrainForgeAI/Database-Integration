@@ -3,7 +3,7 @@ import userRouter from './src/routers/userRouter.js';
 import gameRouter from './src/routers/gameRouter.js';
 
 const app = express();
-const port = process.env.API_PORT || 3000;
+const port = process.env.API_PORT;
 
 app.get('/', (req, res) => {
     res.send('Welcome to the API root!');
