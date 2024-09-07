@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { dbConnect, doesUserExist, passwordMatch } from "../utils/commonUtils.js";
+import QUERY from "../utils/query.js";
 
 export class UserService {
     db;
@@ -46,12 +47,15 @@ export class UserService {
     async userLogin(email, password) {
         try {
             // Check if email is already being used and if password matches
-            if (await doesUserExist(email, this.db) != true || await passwordMatch(email, password, this.db) != true) {
-                return { success: false, error: 'Unable to log in. Please make sure your email and password are correct' };
+            if (await doesUserExist(email, this.db) != true) {
+                return { success: false, error: 'Unable to log in. Please make sure your email is correct' };
+            }
+            else if (await passwordMatch(email, password, this.db) != true) {
+                return { success: false, error: 'Unable to log in. Please make sure your password is correct' };
             }
             else {
-                this.db.query(`UPDATE gameData SET lastLogin = NOW() WHERE email=?`, [email])
-                return { success: true, error: 'User successfully logged in' };
+                await await this.db.query(`UPDATE gameData SET lastLogin = NOW() WHERE email=?`, [email])
+                return { success: true, message: 'User successfully logged in' };
             }
         }
         catch (err) {
@@ -75,7 +79,6 @@ export class UserService {
             }
         }
         catch (err) {
-            console.log(err)
             throw err;
         }
     }
@@ -87,14 +90,17 @@ export class UserService {
                 return { success: false, error: 'Password is invalid. Please make sure that new password is between 14 and 24 characters with no spaces' };
             }
             // Check if user exists with query and check if password matches
-            else if (await doesUserExist(email, this.db) != true || await passwordMatch(email, password, this.db) != true) {
-                return { success: false, error: 'Unable to log in. Please make sure your email and password are correct' };
+            else if (await doesUserExist(email, this.db) != true ) {
+                return { success: false, error: 'Account does not exist' };
+            }
+            else if (await passwordMatch(email, password, this.db) != true) {
+                return { success: false, error: 'Unable to log in. Please make sure your password is correct' };
             }
             // Create new hash for new password if all requirements for password and users match
             else {
                 const hash = await bcrypt.hash(newPassword, this.salt);
-                await this.db.query(`UPDATE users SET password=? WHERE email=?`, [hash, email]);
-                return { success: true, message: 'Password has been successfully changed'};
+                await this.db.query(QUERY.CHANGE_PASSWORD, [hash, email]);
+                return { success: true, message: 'Password has been successfully changed' };
             }
         }
         catch (err) {
@@ -113,7 +119,7 @@ export class UserService {
                 return { success: false, error: 'Account does not exist' };
             }
             else {
-                await this.db.query(`UPDATE users SET name=? WHERE email=?`, [newName, email]);
+                await this.db.query(QUERY.GET_NAME, [newName, email]);
                 return { success: true, message: 'Name has been changed' };
             }
         }
@@ -129,7 +135,7 @@ export class UserService {
                 return { success: false, error: 'Account does not exist' };
             }
             else {
-                const nameQuery = await this.db.query(`Select name from users where email=?`, [email]);
+                const nameQuery = await this.db.query(QUERY.GET_NAME, [email]);
                 var name = nameQuery[0][0];
                 // Prevent name from returning as undefined if does not exist
                 if (!name) {
