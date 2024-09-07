@@ -16,5 +16,5 @@ COPY . .
 # Create mappable port and expose port
 ENV API_PORT 3000
 EXPOSE $API_PORT
-# Command to run docker file
+# Command to run application within docker container
 CMD ["npm", "start"]
