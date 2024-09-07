@@ -1,0 +1,19 @@
+# node modules
+/node_modules
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yaml
+
+# Readme
+*.md
+
+# Git file
+.gitignore
+.git
+Git
+
+# Environment variables
+*.env*
+
