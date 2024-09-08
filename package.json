@@ -6,17 +6,15 @@
     "express": "^4.19.2",
     "mysql2": "^3.11.0"
   },
-  "name": "lambda",
+  "name": "aspectus-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Varrahan Uthayan",
   "license": "ISC",
-  "description": "",
-  "devDependencies": {}
+  "description": ""
 }
