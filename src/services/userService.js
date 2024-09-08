@@ -40,8 +40,7 @@ export class UserService {
             // Hash the password to store into database
             else {
                 const hash = await bcrypt.hash(password, this.salt);
-                await this.db.query(`INSERT INTO users (email, password, name, accountCreationDate)
-                                    VALUES (?, ?, ?, NOW())`, [email, hash, name]);
+                await this.db.query(QUERY.CREATE_USER, [email, hash, name]);
                 return { success: true, message: 'Account has been successfully created' };
             }
         } catch (err) {
@@ -59,7 +58,7 @@ export class UserService {
                 return { success: false, error: 'Unable to log in. Please make sure your password is correct' };
             }
             else {
-                await await this.db.query(`UPDATE gameData SET lastLogin = NOW() WHERE email=?`, [email])
+                await await this.db.query(QUERY.LOGIN, [email])
                 return { success: true, message: 'User successfully logged in' };
             }
         }
@@ -79,7 +78,7 @@ export class UserService {
                 return { success: false, error: 'Unable to log in. Please make sure your email and password are correct' };
             }
             else {
-                await this.db.query('DELETE FROM users WHERE email=?', [email]);
+                await this.db.query(QUERY.DELETE_USER, [email]);
                 return { success: true, message: 'Account successfully deleted' };
             }
         }
@@ -124,7 +123,7 @@ export class UserService {
                 return { success: false, error: 'Account does not exist' };
             }
             else {
-                await this.db.query(QUERY.GET_NAME, [newName, email]);
+                await this.db.query(QUERY.UPDATE_NAME, [newName, email]);
                 return { success: true, message: 'Name has been changed' };
             }
         }
