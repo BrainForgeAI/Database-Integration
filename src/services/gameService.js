@@ -4,6 +4,7 @@ import QUERY from "../utils/query.js";
 
 export class GameService {
     db;
+    
     constructor() {
         dotenv.config();
         this.db = dbConnect();
