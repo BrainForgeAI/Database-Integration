@@ -3,21 +3,21 @@ import bcrypt from "bcrypt";
 import QUERY from  "./query.js"
 
 export function dbConnect() {
-        // Create connection to database
-        const db = mysql.createPool({
-            host: process.env.DB_HOST,
-            port: process.env.DB_PORT,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-        }).promise();
-        // Test connection to the database
-        try {
-            this.connection = db.getConnection();
-        } catch (err) {
-            throw err;
-        }
-        return db;
+    // Create connection to database
+    const db = mysql.createPool({
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+    }).promise();
+    // Test connection to the database
+    try {
+        const connection = db.getConnection();
+    } catch (err) {
+        throw err;
+    }
+    return db;
 }
 
 export async function doesUserExist(email, db) {
