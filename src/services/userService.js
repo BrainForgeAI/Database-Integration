@@ -7,6 +7,7 @@ export class UserService {
     db;
     salt;
     regEx;
+
     constructor() {
         dotenv.config()
         this.db = dbConnect();
@@ -14,15 +15,19 @@ export class UserService {
         this.regEx = {
             email: /^([a-z\d\.-]+)@([a-z]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
             password: /^([\w\S]{14,24})/,
-            name: /^([\w\s]{8,40})/i
-        }
+            name: /^[A-Za-z]{1,30}(?:\s[A-Za-z]{1,30})?$/
+        };
     }
 
-    async createUser(email, password, name='') {
+    async createUser(email, password, name) {
         try {
             // Basic email verification with regex
             if (!this.regEx.email.test(email)) {
-                return { success: false, error: 'Invalid email format. Please provide a valid email address.' };
+                return { success: false, error: 'Invalid email format. Please provide a valid email address' };
+            }
+            // Check if name meets requirements
+            else if (!this.regEx.name.test(name)) {
+                return { success: false, error: 'Name must be maximum 30 characters for first and last name seperate'}
             }
             // Check if password meets requirements of between 14 and 24 characters with no spaces
             else if (!this.regEx.password.test(password)) {
