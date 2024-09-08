@@ -4,7 +4,6 @@ import QUERY from  "./query.js"
 
 export function dbConnect() {
         // Create connection to database
-        var response = true;
         const db = mysql.createPool({
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
@@ -16,7 +15,7 @@ export function dbConnect() {
         try {
             this.connection = db.getConnection();
         } catch (err) {
-            response = false;
+            throw err;
         }
         return db;
 }
