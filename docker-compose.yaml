@@ -1,9 +1,8 @@
-version: '3.9'
 services:
   api:
     container_name: aspectus_api_container
     image: aspectus-api
-    env_file:
-      - .env
     ports:
       - "${HOST_PORT}:${CONTAINER_PORT}"
+    env_file:
+      - .env
