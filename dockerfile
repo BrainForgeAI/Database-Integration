@@ -1,20 +1,20 @@
 FROM node:20-alpine3.19
-# Install OpenSSL and update package list to resolve vunerability issues
-RUN apk update && \
-    apk add --no-cache openssl libssl3 && \
-    rm -rf /var/cache/apk/*
 # Create working directory
 WORKDIR /aspectus/api
 # Copy dependencies from package.json and package-lock.json into working directory
-COPY package*.json .
-# Use 'npm ci' for clean installation of packages. 'npm ci' installs directly from package-lock.json
-# and only uses package.json to check if packages aren't mismatched, or it will throw an error.
-# npm ci can only be used if package-lock.json exists
-RUN npm ci
+COPY package*.json ./
+# Use 'npm ci' for clean installation of packages directly from package-lock. apk update and apk add
+# are used in this instance to add packages that reduce vunerabilities
+RUN apk update && \
+    apk add --no-cache openssl libssl3 && \
+    rm -rf /var/cache/apk/* && \
+    npm ci && \
+    npm cache clean --force
 # Copies all files from project directory into working directory
 COPY . .
-# Create mappable port and expose port
-ENV API_PORT 3000
-EXPOSE $API_PORT
-# Command to run application within docker container
-CMD ["npm", "start"]
+# Expose port. This should be the same port as what is declared as the container port
+EXPOSE 1000
+# Command to run application within docker container.
+# Use node [main script] rather than npm start to remove the minimal overhead of npm start
+# and no pre-script or environment configurations are being declared
+CMD ["node", "app.js"]
