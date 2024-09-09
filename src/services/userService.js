@@ -41,7 +41,7 @@ export class UserService {
             else {
                 const hash = await bcrypt.hash(password, this.salt);
                 await this.db.query(QUERY.CREATE_USER, [email, hash, name]);
-                return { success: true, message: 'Account has been successfully created' };
+                return { success: true, message: 'Congratulations! Thank you for signing up to Brainforge' };
             }
         } catch (err) {
             throw err;
