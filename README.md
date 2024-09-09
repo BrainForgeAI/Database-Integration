@@ -12,6 +12,14 @@ This project is a REST API that facilitates data transfer between a website and 
 - [Running the API Locally](#running-the-api-locally)
 - [Running the API with Docker](#running-the-api-with-docker)
 - [API Endpoints](#api-endpoints)
+  - [POST /aspectus/users/createAccount](#post-/aspectus/users/createAccount)
+  - [PUT /aspectus/users/login](#post-/aspectus/users/login)
+  - [DELETE /aspectus/users/deleteAccount](#delete-/aspectus/users/deleteAccount)
+  - [PUT /aspectus/users/changePassword](#put-/aspectus/users/changePassword)
+  - [PUT /aspectus/users/updateName](#put-/aspectus/users/updateName)
+  - [GET /aspectus/users/getName](#get-/aspectus/users/getName)
+  - [GET /aspectus/game/getData](#get-/aspectus/game/getData)
+  - [PUT /aspectus/game/updateData](#put-/aspectus/game/updateData)
 - [Error Handling](#error-handling)
 
 ## Features
@@ -87,7 +95,7 @@ node app.js
 ### 1. Build docker image
 
 ```bash
-docker build --pull . -t [image-name]
+docker build --pull . -t [image_name]
 ```
 
 ### 2. Run docker container with docker-compose
@@ -99,7 +107,7 @@ docker compose up
 ### 3. Start docker container
 
 ```bash
-docker start [container-name]
+docker start [container_name]
 ```
 
 ## API Endpoints
@@ -107,6 +115,15 @@ docker start [container-name]
 ### POST /aspectus/users/createAccount
 
 Description: Create a user and add it to database
+
+Request:
+```json
+{
+  "email": "email",
+  "password": "password",
+  "name": "name"
+}
+```
 
 Response: 
 ```json
@@ -120,6 +137,14 @@ Response:
 
 Description: Confirm user credentials and update the last login
 
+Request:
+```json
+{
+  "email": "email",
+  "password": "password"
+}
+```
+
 Response:
 ```json
 {
@@ -131,6 +156,14 @@ Response:
 ### DELETE /aspectus/users/deleteAccount
 
 Description: Delete user account from database
+
+Request:
+```json
+{
+  "email": "email",
+  "password": "password"
+}
+```
 
 Response:
 ```json
@@ -144,6 +177,15 @@ Response:
 
 Description: Change the password of the account and update the database with the new password
 
+Request:
+```json
+{
+  "email": "email",
+  "password": "password",
+  "newPassword": "newPassword"
+}
+```
+
 Response:
 ```json
 {
@@ -155,6 +197,14 @@ Response:
 ### PUT /aspectus/users/updateName
 
 Description: Change the name of the account and update the database with the new name
+
+Request:
+```json
+{
+  "email": "email",
+  "newName": "newName"
+}
+```
 
 Response:
 ```json
@@ -168,6 +218,13 @@ Response:
 
 Description: Get the name of the account 
 
+Request:
+```json
+{
+  "email": "email"
+}
+```
+
 Response:
 ```json
 {
@@ -180,6 +237,13 @@ Response:
 ### GET /aspectus/game/getData
 
 Description: Get stats belonging to the selected user
+
+Request:
+```json
+{
+  "email": "email"
+}
+```
 
 Response:
 ```json
@@ -198,6 +262,16 @@ Response:
 
 Description: Update game stats belonging to a specific user
 
+Request:
+```json
+{
+  "email": "email",
+  "level": 1,
+  "exp": 0,
+  "currency": 0
+}
+```
+
 Response:
 ```json
 {
@@ -213,4 +287,5 @@ Response:
 
 ## Error Handling 
 500 Internal Server Error: If there are any server-side issues (e.g., database connection issues).
+
 400 Bad Request: If the request body contains invalid or incomplete data.
