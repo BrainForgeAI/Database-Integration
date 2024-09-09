@@ -13,9 +13,8 @@ export class GameService {
     async getGameData(email) {
         try {
             const dataQuery = await this.db.query(QUERY.GET_GAME_DATA, [email]);
-            console.log(dataQuery)
             var data = dataQuery[0][0];
-            return { success: true, message: 'Name has been changed', result: data};
+            return { success: true, message: `Game data for account ${email}`, result: data};
         }
         catch (err) {
             throw err;
@@ -30,7 +29,7 @@ export class GameService {
             }
             else {
                 await this.db.query(QUERY.UPDATE_GAME_DATA, [level, exp, currency, email]);
-                return { success: true, message: 'Game data has successfully been updated' };
+                return { success: true, message: `Game data for account ${email} has successfully been updated` };
             }
             }
         catch (err) {

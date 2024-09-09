@@ -124,7 +124,7 @@ export class UserService {
             }
             else {
                 await this.db.query(QUERY.UPDATE_NAME, [newName, email]);
-                return { success: true, message: 'Name has been changed' };
+                return { success: true, message: 'Name has been successfully changed' };
             }
         }
         catch (err) {
