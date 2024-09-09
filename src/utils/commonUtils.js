@@ -12,6 +12,8 @@ export function dbConnect() {
         database: process.env.DB_NAME,
     }).promise();
     // Test connection to the database
+    // db.getConnection method throws error for all cases of unsuccessful connection
+    // so no need to create explicit if statements
     try {
         const connection = db.getConnection();
     } catch (err) {
