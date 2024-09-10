@@ -1,4 +1,4 @@
-# Game Database API
+# Database Integration
 
 This project is a REST API that facilitates data transfer between a website and a game, allowing interaction with a MySQL database. The API is entirely written in JavaScript using Node.js and Express.js. It can be run locally or within a Docker container.
 
