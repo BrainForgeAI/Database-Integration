@@ -6,14 +6,12 @@ Dockerfile
 .dockerignore
 docker-compose.yaml
 
-# Readme
+# README and documentation files
 *.md
 
-# Git file
+# Git files
 .gitignore
-.git
-Git
+.git*
 
 # Environment variables
 *.env*
-
