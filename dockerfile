@@ -26,9 +26,6 @@ COPY . .
 # Change ownership of all files from root user to aspectususer
 RUN chown -R aspectususer:aspectusgroup /aspectus/api
 
-# Expose port. This should be the same port as what is declared as the container port
-EXPOSE 1000
-
 # Switch to user
 USER aspectususer
 
