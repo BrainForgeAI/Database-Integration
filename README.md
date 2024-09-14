@@ -53,7 +53,7 @@ Ensure you have the following installed on your system:
 
 ```bash
 git clone https://github.com/BrainForgeAI/Database-Integration.git
-cd game-database-api
+cd database-integration
 ```
 
 ### 2. Install dependencies
